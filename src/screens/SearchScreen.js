@@ -14,8 +14,10 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import SearchMovieList from '../components/SearchMovieList';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function SearchScreen() {
+  const { theme } = useTheme();
   const [moviesList, setMoviesList] = React.useState([]);
   const [searchText, setSearchText] = React.useState('');
   const [searchResult, setSearchResult] = React.useState([]);
@@ -59,39 +61,59 @@ export default function SearchScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'}
       />
 
       {/* Header with Gradient */}
       <LinearGradient
-        colors={['rgba(0,0,0,0.95)', 'rgba(0,0,0,0.8)', 'transparent']}
+        colors={
+          theme.mode === 'dark'
+            ? ['rgba(0,0,0,0.95)', 'rgba(0,0,0,0.8)', 'transparent']
+            : ['rgba(255,255,255,0.95)', 'rgba(255,255,255,0.8)', 'transparent']
+        }
         style={styles.header}
       >
-        <Text style={styles.headerTitle}>Search</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
+          Search
+        </Text>
 
         {/* Search Bar */}
-        <View style={styles.searchContainer}>
+        <View
+          style={[
+            styles.searchContainer,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           <IonIcon
             name="search-outline"
             size={22}
-            color="#888"
+            color={theme.colors.textSecondary}
             style={styles.searchIconLeft}
           />
           <TextInput
             placeholder="Search movies, shows..."
-            placeholderTextColor="#888"
-            style={styles.searchInput}
+            placeholderTextColor={theme.colors.textSecondary}
+            style={[styles.searchInput, { color: theme.colors.text }]}
             onChangeText={handleSearch}
             value={searchText}
             autoCorrect={false}
           />
           {isSearching && (
             <TouchableOpacity onPress={clearSearch} style={styles.clearButton}>
-              <IonIcon name="close-circle" size={20} color="#888" />
+              <IonIcon
+                name="close-circle"
+                size={20}
+                color={theme.colors.textSecondary}
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -103,22 +125,35 @@ export default function SearchScreen() {
       >
         {searchResult.length > 0 ? (
           <View>
-            <Text style={styles.resultsLabel}>
+            <Text style={[styles.resultsLabel, { color: theme.colors.text }]}>
               {searchResult.length} Results Found
             </Text>
             <SearchMovieList data={searchResult} />
           </View>
         ) : searchText.length > 0 ? (
           <View style={styles.emptyContainer}>
-            <IonIcon name="film-outline" size={80} color="#333" />
-            <Text style={styles.emptyText}>No movies found</Text>
-            <Text style={styles.emptySubtext}>
+            <IonIcon
+              name="film-outline"
+              size={80}
+              color={theme.colors.border}
+            />
+            <Text style={[styles.emptyText, { color: theme.colors.text }]}>
+              No movies found
+            </Text>
+            <Text
+              style={[
+                styles.emptySubtext,
+                { color: theme.colors.textSecondary },
+              ]}
+            >
               Try searching with different keywords
             </Text>
           </View>
         ) : (
           <View>
-            <Text style={styles.allMoviesLabel}>Popular Movies</Text>
+            <Text style={[styles.allMoviesLabel, { color: theme.colors.text }]}>
+              Popular Movies
+            </Text>
             <SearchMovieList data={moviesList} />
           </View>
         )}

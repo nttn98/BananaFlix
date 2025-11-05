@@ -12,10 +12,12 @@ import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function MovieCards({ genreID, label }) {
   const [moviesList, setMoviesList] = React.useState([]);
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   const handleMovieDetails = movie => {
     navigation.navigate('MovieDetails', { movie });
@@ -84,7 +86,7 @@ export default function MovieCards({ genreID, label }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, { color: theme.colors.text }]}>{label}</Text>
       <FlatList
         data={moviesList.slice(0, 10)}
         keyExtractor={item => item._id}

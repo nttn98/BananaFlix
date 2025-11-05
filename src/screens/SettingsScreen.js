@@ -58,6 +58,14 @@ const SettingsScreen = ({ route }) => {
     navigation.navigate('NotificationScreens');
   };
 
+  const aboutNavigation = () => {
+    navigation.navigate('AboutScreen');
+  };
+
+  const helpNavigation = () => {
+    navigation.navigate('HelpSupportScreen');
+  };
+
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
@@ -276,6 +284,7 @@ const SettingsScreen = ({ route }) => {
                 borderColor: theme.colors.border,
               },
             ]}
+            onPress={helpNavigation}
           >
             <View style={styles.menuItemLeft}>
               <View
@@ -309,6 +318,7 @@ const SettingsScreen = ({ route }) => {
                 borderColor: theme.colors.border,
               },
             ]}
+            onPress={aboutNavigation}
           >
             <View style={styles.menuItemLeft}>
               <View

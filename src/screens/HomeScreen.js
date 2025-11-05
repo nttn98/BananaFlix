@@ -104,14 +104,20 @@ export default function HomeScreen({ route }) {
               🍌 BananaFlix
             </Text>
             <View style={styles.headerIcons}>
-              <TouchableOpacity style={styles.headerIcon}>
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => navigation.navigate('SearchScreen')}
+              >
                 <IonIcon
                   name="search-outline"
                   size={24}
                   color={theme.colors.text}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.headerIcon}>
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => navigation.navigate('NotificationScreens')}
+              >
                 <IonIcon
                   name="notifications-outline"
                   size={24}

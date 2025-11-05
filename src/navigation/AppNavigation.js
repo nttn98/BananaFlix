@@ -9,6 +9,8 @@ import MovieDetails from '../screens/MovieDetails';
 import ProfileDetail from '../screens/ProfileDetail';
 import PolicyScreen from '../screens/PolicySreen';
 import NotificationScreens from '../screens/NotificationScreens';
+import AboutScreen from '../screens/AboutScreen';
+import HelpSupportScreen from '../screens/HelpSupportScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,8 @@ export default function AppNavigation() {
           name="NotificationScreens"
           component={NotificationScreens}
         />
+        <Stack.Screen name="AboutScreen" component={AboutScreen} />
+        <Stack.Screen name="HelpSupportScreen" component={HelpSupportScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

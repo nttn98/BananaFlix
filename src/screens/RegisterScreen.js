@@ -16,9 +16,11 @@ import { userRegisterAPI } from '../api/userRegisterAPI';
 import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from '../context/ThemeContext';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -81,13 +83,17 @@ export default function RegisterScreen() {
 
   return (
     <LinearGradient
-      colors={['#000000', '#1a0000', '#000000']}
+      colors={
+        theme.mode === 'dark'
+          ? ['#000000', '#1a0000', '#000000']
+          : ['#FFFFFF', '#FFE5E5', '#FFFFFF']
+      }
       style={styles.container}
     >
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -102,31 +108,44 @@ export default function RegisterScreen() {
           >
             {/* Back Button */}
             <TouchableOpacity style={styles.backButton} onPress={handleLogin}>
-              <IonIcon name="arrow-back" size={24} color="white" />
+              <IonIcon name="arrow-back" size={24} color={theme.colors.text} />
             </TouchableOpacity>
 
             {/* Logo Section */}
             <View style={styles.logoContainer}>
               <Text style={styles.logoText}>🍌</Text>
-              <Text style={styles.brandText}>BananaFlix</Text>
+              <Text style={[styles.brandText, { color: theme.colors.text }]}>
+                BananaFlix
+              </Text>
             </View>
 
             {/* Title */}
-            <Text style={styles.title}>Create Account</Text>
+            <Text style={[styles.title, { color: theme.colors.text }]}>
+              Create Account
+            </Text>
 
             {/* Name Inputs Row */}
             <View style={styles.rowContainer}>
-              <View style={[styles.inputContainer, styles.halfInput]}>
+              <View
+                style={[
+                  styles.inputContainer,
+                  styles.halfInput,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+              >
                 <IonIcon
                   name="person-outline"
                   size={20}
-                  color="#888"
+                  color={theme.colors.textSecondary}
                   style={styles.inputIcon}
                 />
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, { color: theme.colors.text }]}
                   placeholder="First Name"
-                  placeholderTextColor="#888"
+                  placeholderTextColor={theme.colors.textSecondary}
                   onChangeText={text => {
                     setFirstName(text);
                     setValidation(true);
@@ -135,17 +154,26 @@ export default function RegisterScreen() {
                   autoCapitalize="words"
                 />
               </View>
-              <View style={[styles.inputContainer, styles.halfInput]}>
+              <View
+                style={[
+                  styles.inputContainer,
+                  styles.halfInput,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+              >
                 <IonIcon
                   name="person-outline"
                   size={20}
-                  color="#888"
+                  color={theme.colors.textSecondary}
                   style={styles.inputIcon}
                 />
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, { color: theme.colors.text }]}
                   placeholder="Last Name"
-                  placeholderTextColor="#888"
+                  placeholderTextColor={theme.colors.textSecondary}
                   onChangeText={text => {
                     setLastName(text);
                     setValidation(true);
@@ -157,17 +185,25 @@ export default function RegisterScreen() {
             </View>
 
             {/* Age Input */}
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
               <IonIcon
                 name="calendar-outline"
                 size={20}
-                color="#888"
+                color={theme.colors.textSecondary}
                 style={styles.inputIcon}
               />
               <TextInput
-                style={styles.input}
+                style={[styles.input, { color: theme.colors.text }]}
                 placeholder="Age"
-                placeholderTextColor="#888"
+                placeholderTextColor={theme.colors.textSecondary}
                 keyboardType="numeric"
                 onChangeText={text => {
                   setAge(text);
@@ -179,13 +215,19 @@ export default function RegisterScreen() {
 
             {/* Gender Selection */}
             <View style={styles.genderContainer}>
-              <Text style={styles.genderLabel}>Gender</Text>
+              <Text style={[styles.genderLabel, { color: theme.colors.text }]}>
+                Gender
+              </Text>
               <View style={styles.genderButtons}>
                 {['Male', 'Female', 'Other'].map(item => (
                   <TouchableOpacity
                     key={item}
                     style={[
                       styles.genderButton,
+                      {
+                        backgroundColor: theme.colors.surface,
+                        borderColor: theme.colors.border,
+                      },
                       gender === item && styles.genderButtonActive,
                     ]}
                     onPress={() => setGender(item)}
@@ -193,6 +235,7 @@ export default function RegisterScreen() {
                     <Text
                       style={[
                         styles.genderButtonText,
+                        { color: theme.colors.text },
                         gender === item && styles.genderButtonTextActive,
                       ]}
                     >
@@ -204,17 +247,25 @@ export default function RegisterScreen() {
             </View>
 
             {/* Email Input */}
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
               <IonIcon
                 name="mail-outline"
                 size={20}
-                color="#888"
+                color={theme.colors.textSecondary}
                 style={styles.inputIcon}
               />
               <TextInput
-                style={styles.input}
+                style={[styles.input, { color: theme.colors.text }]}
                 placeholder="Email"
-                placeholderTextColor="#888"
+                placeholderTextColor={theme.colors.textSecondary}
                 onChangeText={text => {
                   setEmail(text);
                   setValidation(true);
@@ -226,17 +277,25 @@ export default function RegisterScreen() {
             </View>
 
             {/* Username Input */}
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
               <IonIcon
                 name="at-outline"
                 size={20}
-                color="#888"
+                color={theme.colors.textSecondary}
                 style={styles.inputIcon}
               />
               <TextInput
-                style={styles.input}
+                style={[styles.input, { color: theme.colors.text }]}
                 placeholder="Username"
-                placeholderTextColor="#888"
+                placeholderTextColor={theme.colors.textSecondary}
                 onChangeText={text => {
                   setUsername(text);
                   setValidation(true);
@@ -247,17 +306,25 @@ export default function RegisterScreen() {
             </View>
 
             {/* Password Input */}
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
               <IonIcon
                 name="lock-closed-outline"
                 size={20}
-                color="#888"
+                color={theme.colors.textSecondary}
                 style={styles.inputIcon}
               />
               <TextInput
-                style={styles.input}
+                style={[styles.input, { color: theme.colors.text }]}
                 placeholder="Password"
-                placeholderTextColor="#888"
+                placeholderTextColor={theme.colors.textSecondary}
                 secureTextEntry={!showPassword}
                 onChangeText={text => {
                   setPassword(text);
@@ -273,7 +340,7 @@ export default function RegisterScreen() {
                 <IonIcon
                   name={showPassword ? 'eye-outline' : 'eye-off-outline'}
                   size={20}
-                  color="#888"
+                  color={theme.colors.textSecondary}
                 />
               </TouchableOpacity>
             </View>
@@ -306,7 +373,14 @@ export default function RegisterScreen() {
 
             {/* Login Link */}
             <View style={styles.loginContainer}>
-              <Text style={styles.loginText}>Already have an account? </Text>
+              <Text
+                style={[
+                  styles.loginText,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                Already have an account?{' '}
+              </Text>
               <TouchableOpacity onPress={handleLogin}>
                 <Text style={styles.loginLink}>Sign in</Text>
               </TouchableOpacity>

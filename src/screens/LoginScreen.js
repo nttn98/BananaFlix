@@ -15,9 +15,11 @@ import { userloginAPI, checkAuthAPI } from '../api/userloginAPI';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from '../context/ThemeContext';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [validation, setValidation] = React.useState(true);
@@ -102,13 +104,17 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient
-      colors={['#000000', '#1a0000', '#000000']}
+      colors={
+        theme.mode === 'dark'
+          ? ['#000000', '#1a0000', '#000000']
+          : ['#FFFFFF', '#FFE5E5', '#FFFFFF']
+      }
       style={styles.container}
     >
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -126,25 +132,41 @@ export default function LoginScreen() {
           {/* Logo/Brand Section */}
           <View style={styles.logoContainer}>
             <Text style={styles.logoText}>🍌</Text>
-            <Text style={styles.brandText}>BananaFlix</Text>
-            <Text style={styles.tagline}>Unlimited entertainment</Text>
+            <Text style={[styles.brandText, { color: theme.colors.text }]}>
+              BananaFlix
+            </Text>
+            <Text
+              style={[styles.tagline, { color: theme.colors.textSecondary }]}
+            >
+              Unlimited entertainment
+            </Text>
           </View>
 
           {/* Sign In Title */}
-          <Text style={styles.title}>Sign In</Text>
+          <Text style={[styles.title, { color: theme.colors.text }]}>
+            Sign In
+          </Text>
 
           {/* Username Input */}
-          <View style={styles.inputContainer}>
+          <View
+            style={[
+              styles.inputContainer,
+              {
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+              },
+            ]}
+          >
             <IonIcon
               name="person-outline"
               size={20}
-              color="#888"
+              color={theme.colors.textSecondary}
               style={styles.inputIcon}
             />
             <TextInput
-              style={styles.input}
+              style={[styles.input, { color: theme.colors.text }]}
               placeholder="Username"
-              placeholderTextColor={'#888'}
+              placeholderTextColor={theme.colors.textSecondary}
               onChangeText={text => {
                 setUsername(text);
                 setValidation(true);
@@ -156,17 +178,25 @@ export default function LoginScreen() {
           </View>
 
           {/* Password Input */}
-          <View style={styles.inputContainer}>
+          <View
+            style={[
+              styles.inputContainer,
+              {
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+              },
+            ]}
+          >
             <IonIcon
               name="lock-closed-outline"
               size={20}
-              color="#888"
+              color={theme.colors.textSecondary}
               style={styles.inputIcon}
             />
             <TextInput
-              style={styles.input}
+              style={[styles.input, { color: theme.colors.text }]}
               placeholder="Password"
-              placeholderTextColor={'#888'}
+              placeholderTextColor={theme.colors.textSecondary}
               secureTextEntry={!showPassword}
               onChangeText={text => {
                 setPassword(text);
@@ -182,7 +212,7 @@ export default function LoginScreen() {
               <IonIcon
                 name={showPassword ? 'eye-outline' : 'eye-off-outline'}
                 size={20}
-                color="#888"
+                color={theme.colors.textSecondary}
               />
             </TouchableOpacity>
           </View>
@@ -215,7 +245,14 @@ export default function LoginScreen() {
 
           {/* Register Link */}
           <View style={styles.registerContainer}>
-            <Text style={styles.registerText}>New to BananaFlix? </Text>
+            <Text
+              style={[
+                styles.registerText,
+                { color: theme.colors.textSecondary },
+              ]}
+            >
+              New to BananaFlix?{' '}
+            </Text>
             <TouchableOpacity onPress={handleRegister}>
               <Text style={styles.registerLink}>Sign up now</Text>
             </TouchableOpacity>
